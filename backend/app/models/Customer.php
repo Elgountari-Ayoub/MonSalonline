@@ -25,21 +25,44 @@ class Customer {
 
     return $row;
   }
+  // Get Customer By Token
+  public function getCustomerByToken($token){
+    $this->db->query("SELECT * FROM Customers WHERE token = :token");
+
+    $this->db->bind(':token', $token);
+    
+    $row = $this->db->single();
+
+    return $row;
+  }
+  // Get Customer By phone number
+  public function getCustomerByPhoneNumber($phone_number){
+    $this->db->query("SELECT * FROM Customers WHERE id = :id");
+
+    $this->db->bind(':id', $phone_number);
+    
+    $row = $this->db->single();
+
+    return $row;
+  }
 
   // Add Customer
   public function addCustomer($data){
+
+    // echo "<pre>";
+    // print_r($data);
+    // die("empty");
+    // echo "</pre>";
     // Prepare Query
     $this->db->query('INSERT INTO Customers (first_name, last_name, phone_number, token) 
     VALUES (:first_name, :last_name, :phone_number, :token)');
-
     // Bind Values
     $this->db->bind(':first_name', $data['first_name']);
     $this->db->bind(':last_name', $data['last_name']);
     $this->db->bind(':phone_number', $data['phone_number']);
     $this->db->bind(':token', $data['token']);
-    
     //Execute
-    if($this->db->execute()){
+    if($this->db->execute() === true){
       return true;
     } else {
       return false;
@@ -59,7 +82,7 @@ class Customer {
     $this->db->bind(':token', $data['token']);
     
     //Execute
-    if($this->db->execute()){
+    if($this->db->execute() === true){
       return true;
     } else {
       return false;
@@ -67,12 +90,12 @@ class Customer {
   }
 
   // Delete Customer
-  public function deleteCustomer($id){
+  public function deleteCustomer($token){
     // Prepare Query
-    $this->db->query('DELETE FROM Customers WHERE id = :id');
+    $this->db->query('DELETE FROM Customers WHERE token = :token');
 
     // Bind Values
-    $this->db->bind(':id', $id);
+    $this->db->bind(':id', $token);
     
     //Execute
     if($this->db->execute()){

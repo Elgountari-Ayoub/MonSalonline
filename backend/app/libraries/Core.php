@@ -9,11 +9,11 @@
     protected $currentController = 'Pages'; // Default controller
     protected $currentMethod = 'index'; // Default method
     protected $params = []; // Set initial empty params array
-
+    
     public function __construct(){
-      // die("!empty");
-
+      
       $url = $this->getUrl();
+      // echo($url);
       // Look in controllers folder for controller
       if(file_exists('../app/controllers/'.ucwords($url[0]).'.php')){
         // If exists, set as controller
@@ -41,6 +41,8 @@
 
       // Get params - Any values left over in url are params
       $this->params = $url ? array_values($url) : [];
+
+
 
       // Call a callback with an array of parameters
       call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
